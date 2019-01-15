@@ -69,7 +69,9 @@ for i_episode in range(1, n_episodes+1):
         # agent 2 chooses an action
         action_1 = agent_1.act(states, ADD_NOISE)
         actions = np.concatenate((action_0, action_1), axis=0)
+        print(actions)
         actions = np.reshape(actions, (1, 4))
+        print(actions)
         # send both agents' actions together to the environment
         env_info = env.step(actions)[brain_name]
         next_states = env_info.vector_observations         # get next states
@@ -87,7 +89,8 @@ for i_episode in range(1, n_episodes+1):
         # roll over states to next time step
         states = next_states
 
-        if np.any(done):                                  # exit loop if episode finished
+        # Break if done
+        if np.any(done):
             break
 
     scores_window.append(np.max(scores))
