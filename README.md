@@ -1,6 +1,6 @@
 [image1]: https://user-images.githubusercontent.com/10624937/42135623-e770e354-7d12-11e8-998d-29fc74429ca2.gif "Trained Agent"
 [image2]: https://raw.githubusercontent.com/cipher982/playing-tennis-deep-reinforcement-learning/master/images/Screen%20Shot%202019-01-15%20at%2011.06.50%20PM.png
-[image3]:https://raw.githubusercontent.com/cipher982/playing-tennis-deep-reinforcement-learning/master/images/final_score.png
+[image3]:https://raw.githubusercontent.com/cipher982/playing-tennis-deep-reinforcement-learning/master/images/final_model_performance.png
 
 
 # Playing Tennis with Dual Agents
@@ -29,7 +29,8 @@ The state-space of the environment is 8 per agent (16) with 2 actions per agent 
     - Actor(Layer1=256, Layer2=128) 
     - Critic(Layer1=256, Layer2=128)
     
-Final chart of performance below:
+#### Final chart of performance below
+These settings allowed it to finally reach a score of +0.5 averaged out at **667 episodes**.
 ![image3]
   
 ### A quick overview of the learning process
