@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from agent import Agent, ReplayBuffer, OUNoise
 
 if sys.platform == "linux":
-    env = UnityEnvironment(file_name="app/Tennis_Linux")
+    env = UnityEnvironment(file_name="app/Tennis_Linux/Tennis.x86_64")
 else:
     env = UnityEnvironment(file_name="app/Tennis.app")
 
@@ -137,8 +137,8 @@ for i_episode in range(1, n_episodes+1):
         test = list(range(0+10, i_episode, 10))
         df = pd.DataFrame({'Episode': list(range(0+10, i_episode+10, 10)),
                            'Batch Size': BATCH_SIZE,
-                           'fc1': 128,
-                           'fc2': 64,
+                           'fc1': 256,
+                           'fc2': 128,
                            'Max Reward': list1,
                            'Mean Reward': list2,
                            'Mean Episode Train Time (s)': list3})
