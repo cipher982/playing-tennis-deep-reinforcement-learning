@@ -10,6 +10,9 @@ def hidden_init(layer):
     lim = 1. / np.sqrt(fan_in)
     return (-lim, lim)
 
+###
+### ROLLBACK AFTER TRYING BATCH_NORM (DOESNT WORK) ###
+###
 
 class Actor(nn.Module):
     """ Actor (Policy) Model """
@@ -17,6 +20,7 @@ class Actor(nn.Module):
     def __init__(self, state_size, action_size, seed, fc1_units=256, fc2_units=128):
         """
         Initialize parameters
+
         Params
         ======
             state_size (int): Dimension of each state

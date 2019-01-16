@@ -26,7 +26,7 @@ eps_end = 0             # Noise level end
 eps_decay = 250         # Number of episodes to decay over from start to end
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
+print(device)
 
 class Agent():
     """ Interacts with and learns from the environment """
@@ -103,6 +103,7 @@ class Agent():
         where:
             actor_target(state) -> action
             critic_target(state, action) -> Q-value
+
         Params
         ======
             experiences (Tuple[torch.Tensor]): tuple of (s, a, r, s', done) tuples 
@@ -159,6 +160,7 @@ class Agent():
         Soft update model parameters
 
         θ_target = τ*θ_local + (1 - τ)*θ_target
+
         Params
         ======
             local_model: PyTorch model (weights will be copied from)
@@ -198,6 +200,7 @@ class ReplayBuffer:
     def __init__(self, action_size, buffer_size, batch_size, seed):
         """
         Initialize a ReplayBuffer object
+        
         Params
         ======
             buffer_size (int): maximum size of buffer

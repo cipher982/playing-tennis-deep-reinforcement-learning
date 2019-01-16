@@ -65,8 +65,11 @@ list1=[]
 list2=[]
 list3=[]
 
-for i_episode in range(1, n_episodes+1):
+for i_episode in range(0, n_episodes):
+    # Start the clock
     start_time = time.time()
+
+    # Boilerplate stuff
     env_info = env.reset(train_mode=True)[brain_name]
     states = env_info.vector_observations
     states = np.reshape(states, (1, 48))
@@ -74,6 +77,7 @@ for i_episode in range(1, n_episodes+1):
     agent_1.reset()
     scores = np.zeros(num_agents)
 
+    # Main loop
     while True:
         # Act
         action_0 = agent_0.act(states, ADD_NOISE)
@@ -114,33 +118,18 @@ for i_episode in range(1, n_episodes+1):
             i_episode, np.max(scores), np.mean(scores_window), np.mean(elapsed_time_list)))
         elapsed_time_list = []
 
+    # Create a CSV file to review training performance
     if np.mean(scores_window) >= 0.5:
         print('\nEnvironment Solved!')
         print('Total Episodes: {}\t Average Score: {}'.format(i_episode-100, np.mean(scores_window)))
 
         df = pd.DataFrame({'Episode' : range(i_episode),
                            'Batch Size' : BATCH_SIZE,
-                           'fc1' : 128,
-                           'fc2' : 64,
+                           'fc1' : fc1,
+                           'fc2' : fc2,
                            'Max Reward' : list1,
                            'Mean Reward' : list2,
                            'Mean Episode Train Time (s)' : list3})
         df.to_csv("Train_file_1.csv")
-        #torch.save(agent_0.actor_local.state_dict(), 'checkpoint_actor_0.pth')
-        #torch.save(agent_0.critic_local.state_dict(),
-        #           'checkpoint_critic_0.pth')
-        #torch.save(agent_1.actor_local.state_dict(), 'checkpoint_actor_1.pth')
-        #torch.save(agent_1.critic_local.state_dict(),
-        #           'checkpoint_critic_1.pth')
         break
-    if i_episode >= 600:
-        test = list(range(0+10, i_episode, 10))
-        df = pd.DataFrame({'Episode': list(range(0+10, i_episode+10, 10)),
-                           'Batch Size': BATCH_SIZE,
-                           'fc1': 256,
-                           'fc2': 128,
-                           'Max Reward': list1,
-                           'Mean Reward': list2,
-                           'Mean Episode Train Time (s)': list3})
-        df.to_csv("Train_file_1.csv")
-        exit()
+
