@@ -28,8 +28,7 @@ The state-space of the environment is 8 per agent (16) with 2 actions per agent 
 - Model Weights:
     - Actor(Layer1=256, Layer2=128) 
     - Critic(Layer1=256, Layer2=128)
-    - 
-    - 
+  
 #### A quick overview of the learning process
 1. As usual with reinforcement learning we **begin with random noise** values to begin the exploration process. 
 2. With each step of taking an action we **add to the experiences memory**.
