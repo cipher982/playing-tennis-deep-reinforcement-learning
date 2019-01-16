@@ -6,7 +6,7 @@
 # Playing Tennis with Dual Agents
 ![image1]
 
-In this environment there are two agents that play against eachother simultaneuosly, and must cooperate to keep the ball in play as long as they can. The goal (to solve the environment) is to reach an average of 0.5 over 100 consecutive episodes.
+In this environment there are two agents that play against eachother simultaneously, and must cooperate to keep the ball in play as long as they can. The goal (to solve the environment) is to reach an average of 0.5 over 100 consecutive episodes.
 
 This agent is fairly similar to the previous excersize here https://github.com/cipher982/Robotic-Control-in-Unity-with-DRL where I had 20 agents running at the same time. The difference here is that they must cooperate and share information of the same state space, so when running the the neural networks we actually combine the actions of both agents to the same network.
 
