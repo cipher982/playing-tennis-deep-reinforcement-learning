@@ -21,7 +21,7 @@ def get_time(format):
 
 from unityagents import UnityEnvironment
 
-env = UnityEnvironment(file_name='Tennis.app', seed=1)
+env = UnityEnvironment(file_name="app/Tennis_Linux/Tennis.x86_64")
 
 # get the default brain
 brain_name = env.brain_names[0]
