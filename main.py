@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 
 from agent import Agent, ReplayBuffer, OUNoise
 
-if platform == "linux":
+if sys.platform == "linux":
     env = UnityEnvironment(file_name="app/Tennis_Linux")
 else:
     env = UnityEnvironment(file_name="app/Tennis.app")
