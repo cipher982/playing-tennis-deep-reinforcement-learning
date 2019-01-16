@@ -29,43 +29,44 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 class Agent():
-    """Interacts with and learns from the environment."""
+    """ Interacts with and learns from the environment """
     
-    def __init__(self, state_size, action_size, num_agents, random_seed):
-        """Initialize an Agent object.
+    def __init__(self, state_size, action_size, num_agents, seed):
+        """
+        Initialize an Agent object
         
         Params
         ======
             state_size (int): dimension of each state
             action_size (int): dimension of each action
             num_agents (int): number of agents
-            random_seed (int): random seed
+            seed (int): random seed
         """
         self.state_size = state_size
         self.action_size = action_size
         self.num_agents = num_agents
-        self.seed = random.seed(random_seed)
+        self.seed = random.seed(seed)
         self.eps = eps_start
         self.t_step = 0
 
-        # Actor Network (w/ Target Network)
-        self.actor_local = Actor(state_size, action_size, random_seed).to(device)
-        self.actor_target = Actor(state_size, action_size, random_seed).to(device)
+        # Actor Network (with Target Network)
+        self.actor_local = Actor(state_size, action_size, seed).to(device)
+        self.actor_target = Actor(state_size, action_size, seed).to(device)
         self.actor_optimizer = optim.Adam(self.actor_local.parameters(), lr=LR_ACTOR)
 
-        # Critic Network (w/ Target Network)
-        self.critic_local = Critic(state_size, action_size, random_seed).to(device)
-        self.critic_target = Critic(state_size, action_size, random_seed).to(device)
+        # Critic Network (with Target Network)
+        self.critic_local = Critic(state_size, action_size, seed).to(device)
+        self.critic_target = Critic(state_size, action_size, seed).to(device)
         self.critic_optimizer = optim.Adam(self.critic_local.parameters(), lr=LR_CRITIC, weight_decay=WEIGHT_DECAY)
                 
         # Noise process
-        self.noise = OUNoise((num_agents, action_size), random_seed)
+        self.noise = OUNoise((num_agents, action_size), seed)
 
         # Replay memory
-        self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, random_seed)
+        self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, seed)
     
     def step(self, state, action, reward, next_state, done, agent_number):
-        """Save experience in replay memory, and use random sample from buffer to learn."""
+        """ Save experience in replay memory, and use random sample from buffer to learn """
         self.t_step += 1
         # Save experience / reward
         self.memory.add(state, action, reward, next_state, done)
@@ -78,7 +79,7 @@ class Agent():
                     self.learn(experiences, GAMMA, agent_number)
 
     def act(self, states, add_noise):
-        """Returns actions for given state as per current policy."""
+        """ Returns actions for given state as per current policy """
         states = torch.from_numpy(states).float().to(device)
         actions = np.zeros((self.num_agents, self.action_size))
         self.actor_local.eval()
@@ -95,7 +96,9 @@ class Agent():
         self.noise.reset()
 
     def learn(self, experiences, gamma, agent_number):
-        """Update policy and value parameters using given batch of experience tuples.
+        """
+        Update policy and value parameters using given batch of experience tuples
+
         Q_targets = r + γ * critic_target(next_state, actor_target(next_state))
         where:
             actor_target(state) -> action
@@ -152,7 +155,9 @@ class Agent():
             self.eps=eps_end
                   
     def soft_update(self, local_model, target_model, tau):
-        """Soft update model parameters.
+        """
+        Soft update model parameters
+
         θ_target = τ*θ_local + (1 - τ)*θ_target
         Params
         ======
@@ -165,10 +170,10 @@ class Agent():
             
             
 class OUNoise:
-    """Ornstein-Uhlenbeck process."""
+    """ Ornstein-Uhlenbeck process """
 
     def __init__(self, size, seed, mu=0.0, theta=0.13, sigma=0.2):
-        """Initialize parameters and noise process."""
+        """ Initialize parameters and noise process """
         self.mu = mu * np.ones(size)
         self.theta = theta
         self.sigma = sigma
@@ -177,21 +182,22 @@ class OUNoise:
         self.reset()
 
     def reset(self):
-        """Reset the internal state (= noise) to mean (mu)."""
+        """ Reset the internal state (= noise) to mean (mu) """
         self.state = copy.copy(self.mu)
 
     def sample(self):
-        """Update internal state and return it as a noise sample."""
+        """ Update internal state and return it as a noise sample """
         x = self.state
         dx = self.theta * (self.mu - x) + self.sigma * np.random.standard_normal(self.size)
         self.state = x + dx
         return self.state
     
 class ReplayBuffer:
-    """Fixed-size buffer to store experience tuples."""
+    """ Fixed-size buffer to store experience tuples """
 
     def __init__(self, action_size, buffer_size, batch_size, seed):
-        """Initialize a ReplayBuffer object.
+        """
+        Initialize a ReplayBuffer object
         Params
         ======
             buffer_size (int): maximum size of buffer
@@ -204,12 +210,12 @@ class ReplayBuffer:
         self.seed = random.seed(seed)
     
     def add(self, state, action, reward, next_state, done):
-        """Add a new experience to memory."""
+        """ Add a new experience to memory """
         e = self.experience(state, action, reward, next_state, done)
         self.memory.append(e)
     
     def sample(self):
-        """Randomly sample a batch of experiences from memory."""
+        """ Randomly sample a batch of experiences from memory """
         experiences = random.sample(self.memory, k=self.batch_size)
 
         states = torch.from_numpy(np.vstack([e.state for e in experiences if e is not None])).float().to(device)
@@ -221,5 +227,5 @@ class ReplayBuffer:
         return (states, actions, rewards, next_states, dones)
 
     def __len__(self):
-        """Return the current size of internal memory."""
+        """ Return the current size of internal memory """
         return len(self.memory)
