@@ -9,7 +9,6 @@ import torch.optim as optim
 
 import numpy as np
 import matplotlib.pyplot as plt
-%matplotlib inline
 import datetime
 import pytz
 
