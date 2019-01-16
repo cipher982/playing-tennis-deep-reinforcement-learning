@@ -5,6 +5,7 @@ import random
 import copy
 import time
 from collections import namedtuple, deque
+import sys
 
 import torch
 import torch.nn as nn
@@ -17,7 +18,10 @@ import matplotlib.pyplot as plt
 
 from agent import Agent, ReplayBuffer, OUNoise
 
-env = UnityEnvironment(file_name="app/Tennis.app")
+if platform == "linux":
+    env = UnityEnvironment(file_name="app/Tennis_Linux")
+else:
+    env = UnityEnvironment(file_name="app/Tennis.app")
 
 brain_name = env.brain_names[0]
 brain = env.brains[brain_name]
